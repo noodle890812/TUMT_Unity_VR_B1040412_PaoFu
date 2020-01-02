@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MainCtrl : MonoBehaviour
 {
-    int[] MenuArray = new int[3];
+    int[] MenuArray = new int[9];
     Random rnd = new Random(); //產生亂數初始值
     int Satus;
     public GameObject Pizza;
@@ -14,6 +14,9 @@ public class MainCtrl : MonoBehaviour
     public GameObject[] Oder_01;
     public GameObject[] Oder_02;
     public GameObject[] Oder_03;
+    public Camera MyCam;
+    GameObject TemObject;
+    int a;
 
     //01=洋蔥
     //02=鳳梨
@@ -41,12 +44,30 @@ public class MainCtrl : MonoBehaviour
                 Satus++;
                 break;
             case 1: //生成訂單
-                if (Satus == 1)
+                if (a < 1)
                 {
-                    Invoke("OderBuild", 0);
-                }                            
-                OderCheck();
-                Satus = 2;
+                    for (int i = 0; i < 10; i++)
+                    {
+                        MenuArray[i] = Random.Range(1, 10);   //亂數產生，亂數產生的範圍是1~9                      
+                        for (int j = 0; j < i; j++)
+                        {
+                            while (MenuArray[j] == MenuArray[i])    //檢查是否與前面產生的數值發生重複，如果有就重新產生
+                            {
+                                j = 0;  //如有重複，將變數j設為0，再次檢查 (因為還是有重複的可能)
+                                MenuArray[i] = Random.Range(1, 10);   //重新產生，存回陣列，亂數產生的範圍是1~9
+                            }
+                        }
+                        a++;
+                    }
+                }
+                else
+                {                  
+                    a = 0;
+                    OderCheck();
+                    Satus = 2;
+                }                
+                TemObject=Instantiate(Pizza, new Vector3(0, 3.37f, -1.75f), new Quaternion(0, 0, 0, 0));
+                TemObject.SetActive(true);
                 break;
             case 2: //製作中
                 break;
@@ -61,16 +82,16 @@ public class MainCtrl : MonoBehaviour
     }
     public void BUTEST()
     {
-        Satus = 3;
+        Satus = 1;
     }
     public void FinishButoon()
     {
-
+        Debug.Log("321");
     }
 
     public void TrashcanButoon()
     {
-        Sccore = Sccore - 200;
+        Debug.Log("123");
     }
     public void Rollerroad01()
     {
@@ -159,11 +180,105 @@ public class MainCtrl : MonoBehaviour
     {
         Player_Picking = 9;
     }
-    public void Pick_release()
+
+    public void Pick_release01()
     {
-
-
-        Player_Picking = 0;
+        if (MyCam.transform.rotation.y > -5 && MyCam.transform.rotation.y < 5)
+        {
+            TemObject.GetComponent<Pizza>().PutOn01();
+        }
+        else
+        {
+            Player_Picking = 0;
+        }
+    }
+    public void Pick_release02()
+    {
+        if(MyCam.transform.rotation.y>-5&& MyCam.transform.rotation.y < 5)
+        {
+            TemObject.GetComponent<Pizza>().PutOn02();
+        }
+        else
+        {
+            Player_Picking = 0;
+        }
+    }
+    public void Pick_release03()
+    {
+        if (MyCam.transform.rotation.y > -5 && MyCam.transform.rotation.y < 5)
+        {
+            TemObject.GetComponent<Pizza>().PutOn03();
+        }
+        else
+        {
+            Player_Picking = 0;
+        }
+    }
+    public void Pick_release04()
+    {
+        if (MyCam.transform.rotation.y > -5 && MyCam.transform.rotation.y < 5)
+        {
+            TemObject.GetComponent<Pizza>().PutOn04();
+        }
+        else
+        {
+            Player_Picking = 0;
+        }
+    }
+    public void Pick_release05()
+    {
+        if (MyCam.transform.rotation.y > -5 && MyCam.transform.rotation.y < 5)
+        {
+            TemObject.GetComponent<Pizza>().PutOn05();
+        }
+        else
+        {
+            Player_Picking = 0;
+        }
+    }
+    public void Pick_release06()
+    {
+        if (MyCam.transform.rotation.y > -5 && MyCam.transform.rotation.y < 5)
+        {
+            TemObject.GetComponent<Pizza>().PutOn06();
+        }
+        else
+        {
+            Player_Picking = 0;
+        }
+    }
+    public void Pick_release07()
+    {
+        if (MyCam.transform.rotation.y > -5 && MyCam.transform.rotation.y < 5)
+        {
+            TemObject.GetComponent<Pizza>().PutOn07();
+        }
+        else
+        {
+            Player_Picking = 0;
+        }
+    }
+    public void Pick_release08()
+    {
+        if (MyCam.transform.rotation.y > -5 && MyCam.transform.rotation.y < 5)
+        {
+            TemObject.GetComponent<Pizza>().PutOn08();
+        }
+        else
+        {
+            Player_Picking = 0;
+        }
+    }
+    public void Pick_release09()
+    {
+        if (MyCam.transform.rotation.y > -5 && MyCam.transform.rotation.y < 5)
+        {
+            TemObject.GetComponent<Pizza>().PutOn09();
+        }
+        else
+        {
+            Player_Picking = 0;
+        }
     }
 
     public void OderCheck()
@@ -171,130 +286,332 @@ public class MainCtrl : MonoBehaviour
         if (MenuArray[1] == 1)
         {
             Oder_01[0].SetActive(true);
+            Oder_01[1].SetActive(false);
+            Oder_01[2].SetActive(false);
+            Oder_01[3].SetActive(false);
+            Oder_01[4].SetActive(false);
+            Oder_01[5].SetActive(false);
+            Oder_01[6].SetActive(false);
+            Oder_01[7].SetActive(false);
+            Oder_01[8].SetActive(false);
+            Oder_01[9].SetActive(false);
         }
         if (MenuArray[1] == 2)
         {
             Oder_01[1].SetActive(true);
+            Oder_01[0].SetActive(false);
+            Oder_01[2].SetActive(false);
+            Oder_01[3].SetActive(false);
+            Oder_01[4].SetActive(false);
+            Oder_01[5].SetActive(false);
+            Oder_01[6].SetActive(false);
+            Oder_01[7].SetActive(false);
+            Oder_01[8].SetActive(false);
         }
         if (MenuArray[1] == 3)
         {
             Oder_01[2].SetActive(true);
+            Oder_01[1].SetActive(false);
+            Oder_01[0].SetActive(false);
+            Oder_01[3].SetActive(false);
+            Oder_01[4].SetActive(false);
+            Oder_01[5].SetActive(false);
+            Oder_01[6].SetActive(false);
+            Oder_01[7].SetActive(false);
+            Oder_01[8].SetActive(false);
         }
         if (MenuArray[1] == 4)
         {
             Oder_01[3].SetActive(true);
+            Oder_01[1].SetActive(false);
+            Oder_01[2].SetActive(false);
+            Oder_01[0].SetActive(false);
+            Oder_01[4].SetActive(false);
+            Oder_01[5].SetActive(false);
+            Oder_01[6].SetActive(false);
+            Oder_01[7].SetActive(false);
+            Oder_01[8].SetActive(false);
         }
         if (MenuArray[1] == 5)
         {
             Oder_01[4].SetActive(true);
+            Oder_01[1].SetActive(false);
+            Oder_01[2].SetActive(false);
+            Oder_01[3].SetActive(false);
+            Oder_01[0].SetActive(false);
+            Oder_01[5].SetActive(false);
+            Oder_01[6].SetActive(false);
+            Oder_01[7].SetActive(false);
+            Oder_01[8].SetActive(false);
         }
         if (MenuArray[1] == 6)
         {
             Oder_01[5].SetActive(true);
+            Oder_01[1].SetActive(false);
+            Oder_01[2].SetActive(false);
+            Oder_01[3].SetActive(false);
+            Oder_01[4].SetActive(false);
+            Oder_01[0].SetActive(false);
+            Oder_01[6].SetActive(false);
+            Oder_01[7].SetActive(false);
+            Oder_01[8].SetActive(false);
+
         }
         if (MenuArray[1] == 7)
         {
             Oder_01[6].SetActive(true);
+            Oder_01[1].SetActive(false);
+            Oder_01[2].SetActive(false);
+            Oder_01[3].SetActive(false);
+            Oder_01[4].SetActive(false);
+            Oder_01[5].SetActive(false);
+            Oder_01[0].SetActive(false);
+            Oder_01[7].SetActive(false);
+            Oder_01[8].SetActive(false);
+
         }
         if (MenuArray[1] == 8)
         {
             Oder_01[7].SetActive(true);
+            Oder_01[1].SetActive(false);
+            Oder_01[2].SetActive(false);
+            Oder_01[3].SetActive(false);
+            Oder_01[4].SetActive(false);
+            Oder_01[5].SetActive(false);
+            Oder_01[6].SetActive(false);
+            Oder_01[0].SetActive(false);
+            Oder_01[8].SetActive(false);
         }
         if (MenuArray[1] == 9)
         {
             Oder_01[8].SetActive(true);
+            Oder_01[1].SetActive(false);
+            Oder_01[2].SetActive(false);
+            Oder_01[3].SetActive(false);
+            Oder_01[4].SetActive(false);
+            Oder_01[5].SetActive(false);
+            Oder_01[6].SetActive(false);
+            Oder_01[7].SetActive(false);
+            Oder_01[0].SetActive(false);
         }
 
         if (MenuArray[2] == 1)
         {
             Oder_02[0].SetActive(true);
+            Oder_02[1].SetActive(false);
+            Oder_02[2].SetActive(false);
+            Oder_02[3].SetActive(false);
+            Oder_02[4].SetActive(false);
+            Oder_02[5].SetActive(false);
+            Oder_02[6].SetActive(false);
+            Oder_02[7].SetActive(false);
+            Oder_02[8].SetActive(false);
         }
         if (MenuArray[2] == 2)
         {
             Oder_02[1].SetActive(true);
+            Oder_02[0].SetActive(false);
+            Oder_02[2].SetActive(false);
+            Oder_02[3].SetActive(false);
+            Oder_02[4].SetActive(false);
+            Oder_02[5].SetActive(false);
+            Oder_02[6].SetActive(false);
+            Oder_02[7].SetActive(false);
+            Oder_02[8].SetActive(false);
         }
         if (MenuArray[2] == 3)
         {
             Oder_02[2].SetActive(true);
+            Oder_02[1].SetActive(false);
+            Oder_02[0].SetActive(false);
+            Oder_02[3].SetActive(false);
+            Oder_02[4].SetActive(false);
+            Oder_02[5].SetActive(false);
+            Oder_02[6].SetActive(false);
+            Oder_02[7].SetActive(false);
+            Oder_02[8].SetActive(false);
         }
         if (MenuArray[2] == 4)
         {
             Oder_02[3].SetActive(true);
+            Oder_02[1].SetActive(false);
+            Oder_02[2].SetActive(false);
+            Oder_02[0].SetActive(false);
+            Oder_02[4].SetActive(false);
+            Oder_02[5].SetActive(false);
+            Oder_02[6].SetActive(false);
+            Oder_02[7].SetActive(false);
+            Oder_02[8].SetActive(false);
         }
         if (MenuArray[2] == 5)
         {
             Oder_02[4].SetActive(true);
+            Oder_02[1].SetActive(false);
+            Oder_02[2].SetActive(false);
+            Oder_02[3].SetActive(false);
+            Oder_02[0].SetActive(false);
+            Oder_02[5].SetActive(false);
+            Oder_02[6].SetActive(false);
+            Oder_02[7].SetActive(false);
+            Oder_02[8].SetActive(false);
         }
         if (MenuArray[2] == 6)
         {
             Oder_02[5].SetActive(true);
+            Oder_02[1].SetActive(false);
+            Oder_02[2].SetActive(false);
+            Oder_02[3].SetActive(false);
+            Oder_02[4].SetActive(false);
+            Oder_02[0].SetActive(false);
+            Oder_02[6].SetActive(false);
+            Oder_02[7].SetActive(false);
+            Oder_02[8].SetActive(false);
         }
         if (MenuArray[2] == 7)
         {
             Oder_02[6].SetActive(true);
+            Oder_02[1].SetActive(false);
+            Oder_02[2].SetActive(false);
+            Oder_02[3].SetActive(false);
+            Oder_02[4].SetActive(false);
+            Oder_02[5].SetActive(false);
+            Oder_02[0].SetActive(false);
+            Oder_02[7].SetActive(false);
+            Oder_02[8].SetActive(false);
         }
         if (MenuArray[2] == 8)
         {
             Oder_02[7].SetActive(true);
+            Oder_02[1].SetActive(false);
+            Oder_02[2].SetActive(false);
+            Oder_02[3].SetActive(false);
+            Oder_02[4].SetActive(false);
+            Oder_02[5].SetActive(false);
+            Oder_02[6].SetActive(false);
+            Oder_02[0].SetActive(false);
+            Oder_02[8].SetActive(false);
         }
         if (MenuArray[2] == 9)
         {
             Oder_02[8].SetActive(true);
+            Oder_02[1].SetActive(false);
+            Oder_02[2].SetActive(false);
+            Oder_02[3].SetActive(false);
+            Oder_02[4].SetActive(false);
+            Oder_02[5].SetActive(false);
+            Oder_02[6].SetActive(false);
+            Oder_02[7].SetActive(false);
+            Oder_02[0].SetActive(false);
         }
 
-        if (MenuArray[3] == 1)
+        if (MenuArray[0] == 1)
         {
             Oder_03[0].SetActive(true);
+            Oder_03[1].SetActive(false);
+            Oder_03[2].SetActive(false);
+            Oder_03[3].SetActive(false);
+            Oder_03[4].SetActive(false);
+            Oder_03[5].SetActive(false);
+            Oder_03[6].SetActive(false);
+            Oder_03[7].SetActive(false);
+            Oder_03[8].SetActive(false);
         }
-        if (MenuArray[3] == 2)
+        if (MenuArray[0] == 2)
         {
             Oder_03[1].SetActive(true);
+            Oder_03[0].SetActive(false);
+            Oder_03[2].SetActive(false);
+            Oder_03[3].SetActive(false);
+            Oder_03[4].SetActive(false);
+            Oder_03[5].SetActive(false);
+            Oder_03[6].SetActive(false);
+            Oder_03[7].SetActive(false);
+            Oder_03[8].SetActive(false);
         }
-        if (MenuArray[3] == 3)
+        if (MenuArray[0] == 3)
         {
             Oder_03[2].SetActive(true);
+            Oder_03[1].SetActive(false);
+            Oder_03[0].SetActive(false);
+            Oder_03[3].SetActive(false);
+            Oder_03[4].SetActive(false);
+            Oder_03[5].SetActive(false);
+            Oder_03[6].SetActive(false);
+            Oder_03[7].SetActive(false);
+            Oder_03[8].SetActive(false);
         }
-        if (MenuArray[3] == 4)
+        if (MenuArray[0] == 4)
         {
             Oder_03[3].SetActive(true);
+            Oder_03[1].SetActive(false);
+            Oder_03[2].SetActive(false);
+            Oder_03[0].SetActive(false);
+            Oder_03[4].SetActive(false);
+            Oder_03[5].SetActive(false);
+            Oder_03[6].SetActive(false);
+            Oder_03[7].SetActive(false);
+            Oder_03[8].SetActive(false);
         }
-        if (MenuArray[3] == 5)
+        if (MenuArray[0] == 5)
         {
             Oder_03[4].SetActive(true);
+            Oder_03[1].SetActive(false);
+            Oder_03[2].SetActive(false);
+            Oder_03[3].SetActive(false);
+            Oder_03[0].SetActive(false);
+            Oder_03[5].SetActive(false);
+            Oder_03[6].SetActive(false);
+            Oder_03[7].SetActive(false);
+            Oder_03[8].SetActive(false);
         }
-        if (MenuArray[3] == 6)
+        if (MenuArray[0] == 6)
         {
             Oder_03[5].SetActive(true);
+            Oder_03[1].SetActive(false);
+            Oder_03[2].SetActive(false);
+            Oder_03[3].SetActive(false);
+            Oder_03[4].SetActive(false);
+            Oder_03[0].SetActive(false);
+            Oder_03[6].SetActive(false);
+            Oder_03[7].SetActive(false);
+            Oder_03[8].SetActive(false);
         }
-        if (MenuArray[3] == 7)
+        if (MenuArray[0] == 7)
         {
             Oder_03[6].SetActive(true);
+            Oder_03[1].SetActive(false);
+            Oder_03[2].SetActive(false);
+            Oder_03[3].SetActive(false);
+            Oder_03[4].SetActive(false);
+            Oder_03[5].SetActive(false);
+            Oder_03[0].SetActive(false);
+            Oder_03[7].SetActive(false);
+            Oder_03[8].SetActive(false);
         }
-        if (MenuArray[3] == 8)
+        if (MenuArray[0] == 8)
         {
             Oder_03[7].SetActive(true);
+            Oder_03[1].SetActive(false);
+            Oder_03[2].SetActive(false);
+            Oder_03[3].SetActive(false);
+            Oder_03[4].SetActive(false);
+            Oder_03[5].SetActive(false);
+            Oder_03[6].SetActive(false);
+            Oder_03[0].SetActive(false);
+            Oder_03[8].SetActive(false);
         }
-        if (MenuArray[3] == 9)
+        if (MenuArray[0] == 9)
         {
             Oder_03[8].SetActive(true);
+            Oder_03[1].SetActive(false);
+            Oder_03[2].SetActive(false);
+            Oder_03[3].SetActive(false);
+            Oder_03[4].SetActive(false);
+            Oder_03[5].SetActive(false);
+            Oder_03[6].SetActive(false);
+            Oder_03[7].SetActive(false);
+            Oder_03[0].SetActive(false);
         }
-    }
-    public void OderBuild()
-    {
-        for (int i = 0; i < 5; i++)
-        {
-            MenuArray[i] = Random.Range(1, 10);   //亂數產生，亂數產生的範圍是1~9
-
-            for (int j = 0; j < i; j++)
-            {
-                while (MenuArray[j] == MenuArray[i])    //檢查是否與前面產生的數值發生重複，如果有就重新產生
-                {
-                    j = 0;  //如有重複，將變數j設為0，再次檢查 (因為還是有重複的可能)
-                    MenuArray[i] = Random.Range(1, 10);   //重新產生，存回陣列，亂數產生的範圍是1~9
-                }
-            }
-        }
-        Satus = 2;
     }
 
 }
