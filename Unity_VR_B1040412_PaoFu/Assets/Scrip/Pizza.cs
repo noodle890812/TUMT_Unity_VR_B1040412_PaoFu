@@ -7,7 +7,7 @@ public class Pizza : MonoBehaviour
     public GameObject Olive_08, Leaves_09, Broccoli_03, Mushroom_07, Shrimp_06, Pineapple_02, Pepper_04, Onion_01, Sausage_05;
     public bool Olive_OnPizza, Leaves_OnPizza, Broccoli_OnPizza, Mushroom_OnPizza, Shrimp_OnPizza, Pineapple_OnPizza, Pepper_OnPizza, Onion_OnPizza, Sausage_OnPizza;
     int Satus;
-    Vector3[] PizzaV3;
+    public GameObject Main;
 
     // Start is called before the first frame update
     void Start()
@@ -35,9 +35,15 @@ public class Pizza : MonoBehaviour
             case 2: //送出
                 break;
             case 3: //刪除
-                if (this.transform.position.x > 0.9)
+                if (this.transform.position.x > -1.5f)
                 {
-                    this.transform.position = Vector3.MoveTowards(this.transform.position, new Vector3(0.9f, 1.15f, -1.75f), 2.5f * Time.deltaTime);
+                    this.transform.position = Vector3.MoveTowards(this.transform.position, new Vector3(-1.5f, 1.15f, -1.75f), 2.5f * Time.deltaTime);
+                }
+                else
+                {
+                    Main.GetComponent<MainCtrl>().PizzaDesory();
+                    Destroy(gameObject);
+                    
                 }
                 break;
         }
@@ -87,5 +93,15 @@ public class Pizza : MonoBehaviour
     {
         this.gameObject.transform.GetChild(9).gameObject.SetActive(true);
         Leaves_OnPizza = true;
+    }
+    
+    public void PizzaComplete()
+    {
+
+    }
+
+    public void PizzaDelete()
+    {
+        Satus=3;
     }
 }

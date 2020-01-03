@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI ;
 public class MainCtrl : MonoBehaviour
 {
     int[] MenuArray = new int[9];
@@ -9,14 +9,19 @@ public class MainCtrl : MonoBehaviour
     int Satus;
     public GameObject Pizza;
     public GameObject[] Rolller;
-    public int Sccore,Player_Picking;
+    public int Player_Picking;
     public float Roller_Speed;
     public GameObject[] Oder_01;
     public GameObject[] Oder_02;
     public GameObject[] Oder_03;
     public Camera MyCam;
+    public Image TimerImage;
+    public float Gametime;
     GameObject TemObject;
     int a;
+    public int Score;
+    public GameObject OderUI, ScoreUI, FinshUI;
+    public Text ScoreText;
 
     //01=洋蔥
     //02=鳳梨
@@ -37,9 +42,19 @@ public class MainCtrl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKey(KeyCode.F1)) {
+            if (Satus == 3)
+            {
+                Debug.Log("123");
+                TemObject.GetComponent<Pizza>().PizzaDelete();
+                Satus = 5;
+                Score = Score - 200;
+            }
+        }
 
         switch (Satus)
         {
+
             case 0: // 開始遊戲
                 Satus++;
                 break;
@@ -66,19 +81,38 @@ public class MainCtrl : MonoBehaviour
                     OderCheck();
                     Satus = 2;
                 }                
-                TemObject=Instantiate(Pizza, new Vector3(0, 3.37f, -1.75f), new Quaternion(0, 0, 0, 0));
+                break;
+            case 2: //生成披薩
+                TemObject = Instantiate(Pizza, new Vector3(0, 3.37f, -1.75f), new Quaternion(0, 0, 0, 0));
                 TemObject.SetActive(true);
+                Satus = 3;
                 break;
-            case 2: //製作中
+            case 3: //製作中
                 break;
-            case 3: //送出披薩
+            case 4: //送出披薩
+                Rollerroad01();
                 break;
-            case 4://丟棄披薩
+            case 5://丟棄披薩
                 Rollerroad02();
                 break;
-            case 5://結算 (顯示總分，可以再來一次或離開遊戲)
+            case 6://結算 (顯示總分，可以再來一次或離開遊戲)
+                OderUI.SetActive(false);
+                ScoreUI.SetActive(true);
+                FinshUI.SetActive(true);
+                ScoreText.text = Score.ToString();
                 break;
         }
+        if (Satus==1|| Satus == 2|| Satus == 3|| Satus == 4 || Satus == 5)
+        {
+            TimerImage.fillAmount = 1 - (Gametime / 120);
+            Gametime = Gametime + Time.deltaTime;
+
+        }
+        //if (TimerImage.fillAmount <= 0)
+        //{
+        //    Satus = 6;
+        //}
+
     }
     public void BUTEST()
     {
@@ -91,7 +125,13 @@ public class MainCtrl : MonoBehaviour
 
     public void TrashcanButoon()
     {
-        Debug.Log("123");
+        if (Satus == 3)
+        {
+            Debug.Log("123");
+            TemObject.GetComponent<Pizza>().PizzaDelete();
+            Satus = 5;
+            Score = Score - 200;
+        }
     }
     public void Rollerroad01()
     {
@@ -612,6 +652,11 @@ public class MainCtrl : MonoBehaviour
             Oder_03[7].SetActive(false);
             Oder_03[0].SetActive(false);
         }
+    }
+
+    public void PizzaDesory()
+    {
+        Satus = 2;
     }
 
 }
