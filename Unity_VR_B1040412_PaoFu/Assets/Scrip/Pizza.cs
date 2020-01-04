@@ -6,6 +6,7 @@ public class Pizza : MonoBehaviour
 {
     public GameObject Olive_08, Leaves_09, Broccoli_03, Mushroom_07, Shrimp_06, Pineapple_02, Pepper_04, Onion_01, Sausage_05;
     public bool Olive_OnPizza, Leaves_OnPizza, Broccoli_OnPizza, Mushroom_OnPizza, Shrimp_OnPizza, Pineapple_OnPizza, Pepper_OnPizza, Onion_OnPizza, Sausage_OnPizza;
+    public bool[] OnPizza=new bool[9];
     int Satus;
     public GameObject Main;
 
@@ -33,6 +34,15 @@ public class Pizza : MonoBehaviour
             case 1: //製作
                 break;
             case 2: //送出
+                if (this.transform.position.x < 3.1f)
+                {
+                    this.transform.position = Vector3.MoveTowards(this.transform.position, new Vector3(3.1f, 1.15f, -1.75f), 2.5f * Time.deltaTime);
+                }
+                else
+                {
+                    Main.GetComponent<MainCtrl>().PizzaSend();
+                    Destroy(gameObject);
+                }
                 break;
             case 3: //刪除
                 if (this.transform.position.x > -1.5f)
@@ -53,51 +63,60 @@ public class Pizza : MonoBehaviour
     {
         this.gameObject.transform.GetChild(1).gameObject.SetActive(true);
         Onion_OnPizza = true;
+        OnPizza[0] = true;
     }
     public void PutOn02()
     {
         this.gameObject.transform.GetChild(2).gameObject.SetActive(true);
         Pineapple_OnPizza = true;
+        OnPizza[1] = true;
     }
     public void PutOn03()
     {
         this.gameObject.transform.GetChild(3).gameObject.SetActive(true);
         Broccoli_OnPizza = true;
+        OnPizza[2] = true;
     }
     public void PutOn04()
     {
         this.gameObject.transform.GetChild(4).gameObject.SetActive(true);
         Pepper_OnPizza = true;
+        OnPizza[3] = true;
     }
     public void PutOn05()
     {
         this.gameObject.transform.GetChild(5).gameObject.SetActive(true);
         Sausage_OnPizza = true;
+        OnPizza[4] = true;
     }
     public void PutOn06()
     {
         this.gameObject.transform.GetChild(6).gameObject.SetActive(true);
         Shrimp_OnPizza = true;
+        OnPizza[5] = true;
     }
     public void PutOn07()
     {
         this.gameObject.transform.GetChild(7).gameObject.SetActive(true);
         Mushroom_OnPizza = true;
+        OnPizza[6] = true;
     }
     public void PutOn08()
     {
         this.gameObject.transform.GetChild(8).gameObject.SetActive(true);
         Olive_OnPizza = true;
+        OnPizza[7] = true;
     }
     public void PutOn09()
     {
         this.gameObject.transform.GetChild(9).gameObject.SetActive(true);
         Leaves_OnPizza = true;
+        OnPizza[8] = true;
     }
     
     public void PizzaComplete()
     {
-
+        Satus = 2;
     }
 
     public void PizzaDelete()

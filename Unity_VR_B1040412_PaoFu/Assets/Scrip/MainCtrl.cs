@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI ;
+using UnityEngine.SceneManagement;
 public class MainCtrl : MonoBehaviour
 {
     int[] MenuArray = new int[9];
@@ -16,12 +17,12 @@ public class MainCtrl : MonoBehaviour
     public GameObject[] Oder_03;
     public Camera MyCam;
     public Image TimerImage;
-    public float Gametime;
+    public float Gametime, Timer;
     GameObject TemObject;
     int a;
     public int Score;
-    public GameObject OderUI, ScoreUI, FinshUI;
-    public Text ScoreText;
+    public GameObject OderUI, ScoreUI, FinshUI,CountUI;
+    public Text ScoreText,CountText;
 
     //01=洋蔥
     //02=鳳梨
@@ -45,18 +46,64 @@ public class MainCtrl : MonoBehaviour
         if (Input.GetKey(KeyCode.F1)) {
             if (Satus == 3)
             {
-                Debug.Log("123");
                 TemObject.GetComponent<Pizza>().PizzaDelete();
-                Satus = 5;
-                Score = Score - 200;
+                Satus = 5;                
             }
         }
-
-        switch (Satus)
+        if (Input.GetKey(KeyCode.F2))
         {
+            Debug.Log("321");
+            if (TemObject.GetComponent<Pizza>().OnPizza[MenuArray[0] - 1] == true &&
+                TemObject.GetComponent<Pizza>().OnPizza[MenuArray[1] - 1] == true &&
+                TemObject.GetComponent<Pizza>().OnPizza[MenuArray[2] - 1] == true &&
+                TemObject.GetComponent<Pizza>().OnPizza[MenuArray[3] - 1] == false &&
+                TemObject.GetComponent<Pizza>().OnPizza[MenuArray[4] - 1] == false &&
+                TemObject.GetComponent<Pizza>().OnPizza[MenuArray[5] - 1] == false &&
+                TemObject.GetComponent<Pizza>().OnPizza[MenuArray[6] - 1] == false &&
+                TemObject.GetComponent<Pizza>().OnPizza[MenuArray[7] - 1] == false &&
+                TemObject.GetComponent<Pizza>().OnPizza[MenuArray[8] - 1] == false)
+            {
+                TemObject.GetComponent<Pizza>().PizzaComplete();
+                Satus = 4;
+                Score = Score + 500;
+            }
+        }
+        if (Input.GetKey(KeyCode.F12))
+        {
+            Gametime++;
+        }
+
+            switch (Satus)
+            {
 
             case 0: // 開始遊戲
-                Satus++;
+                ScoreUI.SetActive(false);
+                FinshUI.SetActive(false);
+                OderUI.SetActive(false);
+                Timer = Timer + Time.deltaTime;
+                if (Timer > 0)
+                {
+                    CountText.text = "3";
+                    if (Timer > 1)
+                    {
+                        CountText.text = "2";
+                        if (Timer > 2)
+                        {
+                            CountText.text = "1";
+                            if (Timer > 3)
+                            {
+                                CountText.text = "Start!";
+                                if (Timer > 4)
+                                {
+                                    CountUI.SetActive(false);
+                                    OderUI.SetActive(true);
+                                    Satus++;
+                                }
+                            }
+
+                        }
+                    }
+                }
                 break;
             case 1: //生成訂單
                 if (a < 1)
@@ -98,39 +145,47 @@ public class MainCtrl : MonoBehaviour
             case 6://結算 (顯示總分，可以再來一次或離開遊戲)
                 OderUI.SetActive(false);
                 ScoreUI.SetActive(true);
-                FinshUI.SetActive(true);
-                ScoreText.text = Score.ToString();
+                FinshUI.SetActive(true);               
                 break;
-        }
+            }
         if (Satus==1|| Satus == 2|| Satus == 3|| Satus == 4 || Satus == 5)
         {
             TimerImage.fillAmount = 1 - (Gametime / 120);
             Gametime = Gametime + Time.deltaTime;
 
         }
-        //if (TimerImage.fillAmount <= 0)
-        //{
-        //    Satus = 6;
-        //}
+        if (TimerImage.fillAmount <= 0)
+        {
+            Satus = 6;
+            
+        }
 
+        ScoreText.text = Score.ToString();
     }
-    public void BUTEST()
-    {
-        Satus = 1;
-    }
+
     public void FinishButoon()
     {
-        Debug.Log("321");
+        if (TemObject.GetComponent<Pizza>().OnPizza[MenuArray[0] - 1] == true && 
+            TemObject.GetComponent<Pizza>().OnPizza[MenuArray[1] - 1] == true && 
+            TemObject.GetComponent<Pizza>().OnPizza[MenuArray[2] - 1] == true && 
+            TemObject.GetComponent<Pizza>().OnPizza[MenuArray[3] - 1] == false && 
+            TemObject.GetComponent<Pizza>().OnPizza[MenuArray[4] - 1] == false && 
+            TemObject.GetComponent<Pizza>().OnPizza[MenuArray[5] - 1] == false && 
+            TemObject.GetComponent<Pizza>().OnPizza[MenuArray[6] - 1] == false && 
+            TemObject.GetComponent<Pizza>().OnPizza[MenuArray[7] - 1] == false && 
+            TemObject.GetComponent<Pizza>().OnPizza[MenuArray[8] - 1] == false )
+        {
+            TemObject.GetComponent<Pizza>().PizzaComplete();
+            Satus = 4;
+        }
     }
 
     public void TrashcanButoon()
     {
         if (Satus == 3)
         {
-            Debug.Log("123");
             TemObject.GetComponent<Pizza>().PizzaDelete();
-            Satus = 5;
-            Score = Score - 200;
+            Satus = 5;           
         }
     }
     public void Rollerroad01()
@@ -223,7 +278,7 @@ public class MainCtrl : MonoBehaviour
 
     public void Pick_release01()
     {
-        if (MyCam.transform.rotation.y > -5 && MyCam.transform.rotation.y < 5)
+        if (MyCam.transform.rotation.y > -5 && MyCam.transform.rotation.y < 5&&Satus==3)
         {
             TemObject.GetComponent<Pizza>().PutOn01();
         }
@@ -234,7 +289,7 @@ public class MainCtrl : MonoBehaviour
     }
     public void Pick_release02()
     {
-        if(MyCam.transform.rotation.y>-5&& MyCam.transform.rotation.y < 5)
+        if(MyCam.transform.rotation.y>-5&& MyCam.transform.rotation.y < 5 && Satus == 3)
         {
             TemObject.GetComponent<Pizza>().PutOn02();
         }
@@ -245,7 +300,7 @@ public class MainCtrl : MonoBehaviour
     }
     public void Pick_release03()
     {
-        if (MyCam.transform.rotation.y > -5 && MyCam.transform.rotation.y < 5)
+        if (MyCam.transform.rotation.y > -5 && MyCam.transform.rotation.y < 5 && Satus == 3)
         {
             TemObject.GetComponent<Pizza>().PutOn03();
         }
@@ -256,7 +311,7 @@ public class MainCtrl : MonoBehaviour
     }
     public void Pick_release04()
     {
-        if (MyCam.transform.rotation.y > -5 && MyCam.transform.rotation.y < 5)
+        if (MyCam.transform.rotation.y > -5 && MyCam.transform.rotation.y < 5 && Satus == 3)
         {
             TemObject.GetComponent<Pizza>().PutOn04();
         }
@@ -267,7 +322,7 @@ public class MainCtrl : MonoBehaviour
     }
     public void Pick_release05()
     {
-        if (MyCam.transform.rotation.y > -5 && MyCam.transform.rotation.y < 5)
+        if (MyCam.transform.rotation.y > -5 && MyCam.transform.rotation.y < 5 && Satus == 3)
         {
             TemObject.GetComponent<Pizza>().PutOn05();
         }
@@ -278,7 +333,7 @@ public class MainCtrl : MonoBehaviour
     }
     public void Pick_release06()
     {
-        if (MyCam.transform.rotation.y > -5 && MyCam.transform.rotation.y < 5)
+        if (MyCam.transform.rotation.y > -5 && MyCam.transform.rotation.y < 5 && Satus == 3)
         {
             TemObject.GetComponent<Pizza>().PutOn06();
         }
@@ -289,7 +344,7 @@ public class MainCtrl : MonoBehaviour
     }
     public void Pick_release07()
     {
-        if (MyCam.transform.rotation.y > -5 && MyCam.transform.rotation.y < 5)
+        if (MyCam.transform.rotation.y > -5 && MyCam.transform.rotation.y < 5 && Satus == 3)
         {
             TemObject.GetComponent<Pizza>().PutOn07();
         }
@@ -300,7 +355,7 @@ public class MainCtrl : MonoBehaviour
     }
     public void Pick_release08()
     {
-        if (MyCam.transform.rotation.y > -5 && MyCam.transform.rotation.y < 5)
+        if (MyCam.transform.rotation.y > -5 && MyCam.transform.rotation.y < 5 && Satus == 3)
         {
             TemObject.GetComponent<Pizza>().PutOn08();
         }
@@ -311,7 +366,7 @@ public class MainCtrl : MonoBehaviour
     }
     public void Pick_release09()
     {
-        if (MyCam.transform.rotation.y > -5 && MyCam.transform.rotation.y < 5)
+        if (MyCam.transform.rotation.y > -5 && MyCam.transform.rotation.y < 5 && Satus == 3)
         {
             TemObject.GetComponent<Pizza>().PutOn09();
         }
@@ -657,6 +712,22 @@ public class MainCtrl : MonoBehaviour
     public void PizzaDesory()
     {
         Satus = 2;
+        Score = Score - 200;
     }
+    public void PizzaSend()
+    {
+        Satus = 1;
+        Score = Score + 500;
+    }
+
+    public void Again()
+    {
+        SceneManager.LoadScene("VRGame");
+    }
+    public void Quit()
+    {
+        Application.Quit();
+    }
+
 
 }
