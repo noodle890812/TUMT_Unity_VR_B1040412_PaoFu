@@ -22,9 +22,9 @@ public class Pizza : MonoBehaviour
         switch (Satus)
         {
             case 0: //生成
-                if (this.transform.position.y > 1.15)
+                if (this.transform.position.y > -0.025f)
                 {
-                    this.transform.position = Vector3.MoveTowards(this.transform.position, new Vector3(0f, 1.15f, -1.75f), 2.5f*Time.deltaTime);
+                    this.transform.position = Vector3.MoveTowards(this.transform.position, new Vector3(0f, -0.025f, -0.62f), 2f*Time.deltaTime);
                 }
                 else
                 {
@@ -34,9 +34,9 @@ public class Pizza : MonoBehaviour
             case 1: //製作
                 break;
             case 2: //送出
-                if (this.transform.position.x < 3.1f)
+                if (this.transform.position.x < 1.4f)
                 {
-                    this.transform.position = Vector3.MoveTowards(this.transform.position, new Vector3(3.1f, 1.15f, -1.75f), 2.5f * Time.deltaTime);
+                    this.transform.position = Vector3.MoveTowards(this.transform.position, new Vector3(1.4f, -0.025f, -0.62f), 2f * Time.deltaTime);
                 }
                 else
                 {
@@ -45,9 +45,9 @@ public class Pizza : MonoBehaviour
                 }
                 break;
             case 3: //刪除
-                if (this.transform.position.x > -1.5f)
+                if (this.transform.position.x > -0.85f)
                 {
-                    this.transform.position = Vector3.MoveTowards(this.transform.position, new Vector3(-1.5f, 1.15f, -1.75f), 2.5f * Time.deltaTime);
+                    this.transform.position = Vector3.MoveTowards(this.transform.position, new Vector3(-0.85f, -0.025f, -0.62f), 2f * Time.deltaTime);
                 }
                 else
                 {
